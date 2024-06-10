@@ -1,25 +1,35 @@
 <?php
 
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DeviceController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PostController;
-use App\Models\Post;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Post\CreateController;
+use App\Http\Controllers\Post\DestroyController;
+use App\Http\Controllers\Post\EditController;
+use App\Http\Controllers\Post\IndexController;
+use App\Http\Controllers\Post\ShowController;
+use App\Http\Controllers\Post\StoreController;
+use App\Http\Controllers\Post\UpdateController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome.index');
 
-Route::get('/posts', [PostController::class, 'index'])->name('post.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
+Route::group(['namespace' => 'App\Http\Controllers\Post'], function () {
+    Route::get('/posts', 'IndexController')->name('post.index');
+    Route::get('/posts/create', 'CreateController')->name('post.create');
 
-Route::post('/posts', [PostController::class, 'store'])->name('post.store');
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('post.show');
-Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
-Route::patch('/posts/{post}', [PostController::class, 'update'])->name('post.update');
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::post('/posts', 'StoreController')->name('post.store');
+    Route::get('/posts/{post}', 'ShowController')->name('post.show');
+    Route::get('/posts/{post}/edit', 'EditController')->name('post.edit');
+    Route::patch('/posts/{post}', 'UpdateController')->name('post.update');
+    Route::delete('/posts/{post}', 'DestroyController')->name('post.destroy');
+});
+
+
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('device.index');
 Route::get('/devices/create', [DeviceController::class, 'create'])->name('device.create');
