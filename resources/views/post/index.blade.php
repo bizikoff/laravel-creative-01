@@ -9,6 +9,9 @@
 {{-- content --}}
 @section('content')
     <div class="bg-gray-100 h-full">
+        <div class="pt-4 px-4 mb-2 ">
+            <a class="btn" href="{{ route('post.create') }}">Add new post</a>
+        </div>
         <div class="mx-4 py-4 text-md font-semibold">
             @foreach ($posts as $post)
                 <a class="hover:text-gray-400" href="{{ route('post.show', $post->id) }}">
@@ -17,8 +20,10 @@
             @endforeach
         </div>
 
-        <div class="m-4 ">
-            <a class="btn" href="{{ route('post.create') }}">Add new post</a>
+        <div>
+            {{ $posts->links('pagination::tailwind') }}
         </div>
+
+
     </div>
 @endsection
