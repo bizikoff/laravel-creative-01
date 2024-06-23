@@ -9,7 +9,7 @@
 
 </head>
 
-<body class="h-screen">
+<body class="h-screen w-full">
     <header class="bg-gradient-to-t from-gray-200 to-white py-4 drop-shadow">
         <div class="w-2/3 m-auto">
             <nav class="flex justify-center gap-5 font-sans text-gray-600 font-semibold text-md">
@@ -37,11 +37,17 @@
                     <a class="transition-all ease-in delay-150 hover:text-gray-700"
                         href="{{ route('news.index') }}">News</a>
                 </ul>
+                @can('viewAdminElement', auth()->user())
+                    <ul class="">
+                        <a class="transition-all ease-in delay-150 hover:text-gray-700"
+                            href="{{ route('admin.post.index') }}">Admin</a>
+                    </ul>
+                @endcan
             </nav>
         </div>
     </header>
 
-    <div class="w-2/3 h-full m-auto">
+    <div class="h-full w-3/4 m-auto">
         @yield('content')
     </div>
 </body>

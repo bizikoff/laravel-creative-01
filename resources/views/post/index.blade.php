@@ -21,7 +21,7 @@
         </div>
 
         <div>
-            {{ $posts->links('pagination::tailwind') }}
+            {{ $posts->withQueryString()->links('pagination::tailwind') }}
         </div>
 
 

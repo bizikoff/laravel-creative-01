@@ -15,7 +15,7 @@
                 @foreach ($devices as $device)
                     <div class="col-span-1 flex-col bg-white rounded shadow-md hover:shadow-lg overflow-hidden">
                         <div class="">
-                            <img class="h-36 object-cover block m-auto" 
+                            <img class="h-36 object-cover block m-auto"
                                 src="{{ $device->image }}"
                                 alt="Photo of {{ $device->brand }} {{ $device->model }}">
                         </div>

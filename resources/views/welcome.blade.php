@@ -1,16 +1,9 @@
 @extends('layouts.head')
 
-
-{{-- page name --}}
 @section('title')
-    <title>Welcome</title>
+<title>Welcome page</title>
 @endsection
 
-{{-- content --}}
 @section('content')
-
-<div>
-    this is home page
-</div>
-
+    This is welcome page
 @endsection

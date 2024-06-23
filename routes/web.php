@@ -2,17 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Post\CreateController;
-use App\Http\Controllers\Post\DestroyController;
-use App\Http\Controllers\Post\EditController;
-use App\Http\Controllers\Post\IndexController;
-use App\Http\Controllers\Post\ShowController;
-use App\Http\Controllers\Post\StoreController;
-use App\Http\Controllers\Post\UpdateController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\AdminMiddleware;
+
+Route::aliasMiddleware('admin', AdminMiddleware::class);
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,7 +25,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Post'], function () {
     Route::delete('/posts/{post}', 'DestroyController')->name('post.destroy');
 });
 
-
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
+    Route::group(['namespace' => 'Post'], function() {
+        Route::get('/posts', 'IndexController')->name('admin.post.index');
+    });
+});
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('device.index');
 Route::get('/devices/create', [DeviceController::class, 'create'])->name('device.create');
@@ -47,7 +47,17 @@ Route::get('news/{news}/edit', [NewsController::class, 'edit'])->name('news.edit
 Route::patch('/news/{news}', [NewsController::class, 'update'])->name('news.update');
 Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
 
-
-
 Route::get('/contacts', [ContactController::class, 'index'])->name('contact.index');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
